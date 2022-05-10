@@ -72,16 +72,19 @@ func _process(delta):
 		time_till_end_lazer_bonus -= delta
 		if time_till_end_lazer_bonus <= 0:
 			lazer_type = "simple"
+			get_node("/root/GameScene/Bonus/KnifeBonus").hide()
 	
 	if time_till_shield_end > 0:
 		time_till_shield_end -= delta
 		if time_till_shield_end <= 0:
 			has_shield = false
+			get_node("/root/GameScene/Bonus/ShieldBonus").hide()
 			
 	if time_till_chef_hat_bonus_end > 0:
 		time_till_chef_hat_bonus_end -= delta
 		if time_till_chef_hat_bonus_end <= 0:
 			has_chef_hat = false
+			get_node("/root/GameScene/Bonus/ChefHatBonus").hide()
 	
 		
 func fire():
@@ -113,13 +116,16 @@ func fire_stop():
 func change_lazer(new_lazer_type):
 	lazer_type = new_lazer_type
 	time_till_end_lazer_bonus = LAZER_BONUS_TIME
+	get_node("/root/GameScene/Bonus/KnifeBonus").show()
 
 func grant_shield_bonus():
 	has_shield = true
 	time_till_shield_end = SHIELD_BONUS_TIME
+	get_node("/root/GameScene/Bonus/ShieldBonus").show()
 
 func grant_chef_hat_bonus():
 	has_chef_hat = true
 	time_till_chef_hat_bonus_end = CHEF_HAT_BONUS_TIME	
+	get_node("/root/GameScene/Bonus/ChefHatBonus").show()
 	
 	

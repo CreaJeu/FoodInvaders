@@ -7,12 +7,18 @@ export var MAX_BONUS = 1
 
 var EnemyType = [
 	"SodaEnemy",
-	"BurgerEnemy"
+	"BurgerEnemy",
+	"CandyEnemy",
+	"CandyCaneEnemy",
+	"PizzaEnemy",
 ]
 
 var EnemyTypeRarity = {
-	"SodaEnemy": 30,
-	"BurgerEnemy": 70
+	"SodaEnemy": 20,
+	"BurgerEnemy": 20,
+	"CandyEnemy": 20,
+	"CandyCaneEnemy": 20,
+	"PizzaEnemy": 20,
 }
 var total_enemies_rarity = 0
 
@@ -34,10 +40,16 @@ var total_friends_rarity = 0
 
 var ObstacleType = [
 	"TableObstacle",
+	"OvenObstacle",
+	"StoneObstacle",
+	"FreezerObstacle",
 ]
 
 var ObstacleTypeRarity = {
-	"TableObstacle": 100,
+	"TableObstacle": 25,
+	"OvenObstacle": 25,
+	"StoneObstacle": 25,
+	"FreezerObstacle": 25,	
 }
 
 var total_obstacles_rarity = 0

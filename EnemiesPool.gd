@@ -3,7 +3,7 @@ extends Node2D
 export var MAX_ENNEMIES = 5
 export var MAX_FRIENDS = 5
 export var MAX_OBSTACLES = 5
-export var MAX_BONUS = 1
+export var MAX_BONUS = 5
 
 var EnemyType = [
 	"SodaEnemy",
@@ -59,13 +59,15 @@ var BonusType = [
 	"KnifeBonus",
 	"ShieldBonus",
 	"ChefHatBonus",
+	"SpoonBonus",
 ]
 
 var BonusTypeRarity = {
-	"ClosedBonus": 25,
-	"KnifeBonus": 25,
-	"ShieldBonus": 25,
-	"ChefHatBonus": 25,
+	"ClosedBonus": 20,
+	"KnifeBonus": 20,
+	"ShieldBonus": 20,
+	"ChefHatBonus": 20,
+	"SpoonBonus": 20,
 }
 
 var total_bonus_rarity = 0

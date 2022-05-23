@@ -1,6 +1,6 @@
 extends Node2D
 
-var SPEED = 500
+var SPEED = 1000
 var time_till_flush = 0
 
 var type_ = "super_lazer"

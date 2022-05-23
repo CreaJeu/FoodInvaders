@@ -41,6 +41,12 @@ func _process(delta):
 	elif Input.is_action_pressed("ui_down"):
 		dir.x = 0
 		dir.y = speed*delta
+	elif Input.is_action_just_pressed("custom_pause"):
+		var time_scale = Engine.time_scale
+		if time_scale > 0:
+			Engine.time_scale = 0
+		else:
+			Engine.time_scale = 1
 	else:
 		dir.x = 0
 		dir.y = 0
@@ -73,6 +79,7 @@ func _process(delta):
 		if time_till_end_lazer_bonus <= 0:
 			lazer_type = "simple"
 			get_node("/root/GameScene/Bonus/KnifeBonus").hide()
+			get_node("/root/GameScene/Bonus/SpoonBonus").hide()
 	
 	if time_till_shield_end > 0:
 		time_till_shield_end -= delta
@@ -91,7 +98,7 @@ func fire():
 	time_till_fire_end = 0.25
 	# Set fire type
 	var fire_type = ""
-	if lazer_type == "simple":
+	if lazer_type in ["simple", "lame"]:
 		fire_type = "firing"
 	elif lazer_type == "super":
 		fire_type = "firing_super"
@@ -99,12 +106,14 @@ func fire():
 	get_node("./PlayerArea2D/AnimatedSprite").play(fire_type)
 	var lazer_scene_name = ""
 	
-	if lazer_type == "simple":
+	if lazer_type in ["simple", "lame"]:
 		lazer_scene_name = "SimpleLazer"
 	elif lazer_type == "super":
 		lazer_scene_name = "SuperLazer"
 	
 	var lazer = load(lazer_scene_name + ".tscn").instance()
+	if lazer_type == "lame":
+		lazer.SPEED = 150
 	lazer.position.x = position.x
 	lazer.position.y = position.y - 64
 	get_node("/root/GameScene").add_child(lazer)
@@ -116,7 +125,14 @@ func fire_stop():
 func change_lazer(new_lazer_type):
 	lazer_type = new_lazer_type
 	time_till_end_lazer_bonus = LAZER_BONUS_TIME
+	get_node("/root/GameScene/Bonus/SpoonBonus").hide()
 	get_node("/root/GameScene/Bonus/KnifeBonus").show()
+
+func set_lame_lazer():
+	lazer_type = "lame"
+	time_till_end_lazer_bonus = LAZER_BONUS_TIME
+	get_node("/root/GameScene/Bonus/KnifeBonus").hide()
+	get_node("/root/GameScene/Bonus/SpoonBonus").show()
 
 func grant_shield_bonus():
 	has_shield = true

@@ -64,6 +64,8 @@ func _process(delta):
 		else:
 			Engine.time_scale = 1
 			pause_screen.hide()
+	elif Input.is_action_pressed("ui_home"):
+		get_tree().change_scene("res://MenuScreen.tscn")
 	else:
 		dir.x = 0
 		dir.y = 0

@@ -6,7 +6,16 @@ var score = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	var timer = get_node("/root/GameScene/Timer")
+	var player = get_node("/root/GameScene/Player")
+	var stats = get_node("/root/GameScene/Stats")
+	player.position.x = 480
+	player.position.y = 544
+	stats.life = stats.max_life
+	stats.get_node("LifeBar/CurrentBar").scale.x = 1
+	stats.score = 0
+	stats.get_node("ScoreLabel").text = "SCORE : 0"
+	timer.start()
 
 func change_life(points):
 	var player = get_node("/root/GameScene/Player")
@@ -37,13 +46,7 @@ func change_score(points):
 #	pass
 
 func game_over():
-	var enemies_pool = get_node("/root/GameScene/EnemiesPool")
-	var timer = get_node("/root/GameScene/Timer")
-	timer.stop()
-	for child in enemies_pool.get_children():
-		enemies_pool.remove_child(child)
-	var game_over_scene = get_node("/root/GameScene/GameOver")
-	game_over_scene.get_node("ScoreLabel").text = "%d" % score
-	game_over_scene.show()
+	var game_over_scene = load("res://GameOver.tscn")
+	#game_over_scene.get_node("/root/GameOver/ScoreLabel").text = "%d" % score
 	
-	
+	get_tree().change_scene_to(game_over_scene)

@@ -27,4 +27,5 @@ func collision(area):
 		player.set_lame_lazer()
 		queue_free()
 	elif "type_" in parent and parent.type_ in ["simple_lazer", "super_lazer"]:
+		get_node("/root/GameScene/Sounds/Explosion").play()
 		queue_free()

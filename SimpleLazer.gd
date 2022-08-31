@@ -21,12 +21,18 @@ func _process(delta):
 
 func _on_collision(area):
 	var area_parent = area.get_parent()
-	if "type_" in area_parent:
-		if area_parent.type_ in ["friend", "enemy", "bonus"]:
-			SPEED = 0
-			get_node("./Area2D/AnimatedSprite").play("explode")
-			time_till_flush = 0.25
-		if area_parent.type_ == "friend":
-			get_node("/root/GameScene/Stats").change_score(-area_parent.points)
-		if area_parent.type_ == "enemy":
-			get_node("/root/GameScene/Stats").change_score(area_parent.points)
+	if type_ == "lame_lazer":
+		if "type_" in area_parent:
+			if area_parent.type_ in ["friend", "enemy"]:
+				SPEED = 0
+				get_node("./Area2D/AnimatedSprite").play("explode")
+				time_till_flush = 0.25
+			elif area_parent.type_ == "bonus":
+				queue_free()
+	
+	elif type_ == "simple_lazer":
+		if "type_" in area_parent:
+			if area_parent.type_ in ["friend", "enemy", "bonus"]:
+				SPEED = 0
+				get_node("./Area2D/AnimatedSprite").play("explode")
+				time_till_flush = 0.25

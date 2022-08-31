@@ -4,7 +4,7 @@ export var SPEED = 100
 
 var dir = Vector2()
 var FLOOR_NORMAL = Vector2(0, -1)
-var points = 5
+var points = 10
 var life_malus = 5
 var random_speed_factor = 1
 
@@ -32,6 +32,7 @@ func collision(area):
 	if parent == player:
 		# Player with chef hat bonus is resistant
 		if not player.has_chef_hat:
+			get_node("/root/GameScene/Sounds/BadFood").play()
 			print("Player ate junk food")
 			stats.change_life(-life_malus)
 			stats.change_score(-points)
@@ -46,7 +47,9 @@ func collision(area):
 		queue_free()
 	
 	# hit by lazer
-	elif "type_" in parent and parent.type_ in ["simple_lazer", "super_lazer"]:
+	elif "type_" in parent and parent.type_ in ["lame_lazer", "simple_lazer", "super_lazer"]:
+		print("points enemy ", points)
+		get_node("/root/GameScene/Sounds/Explosion").play()
 		stats.change_score(points)
 		queue_free()
 	

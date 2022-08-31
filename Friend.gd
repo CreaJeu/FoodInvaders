@@ -2,7 +2,7 @@ extends Node2D
 
 export var SPEED = 100
 
-export var points = 5
+export var points = 10
 export var life_bonus = 2
 
 var dir = Vector2()
@@ -31,6 +31,7 @@ func collision(area):
 	# eaten by player -> increase score & life
 	if parent == player:
 		print("Player ate good food")
+		get_node("/root/GameScene/Sounds/GoodFood").play()
 		stats.change_score(points)
 		stats.change_life(life_bonus)
 	
@@ -40,11 +41,12 @@ func collision(area):
 		stats.change_score(-3*points)
 	
 	# shot by lazer -> decrease score
-	elif "type_" in parent and parent.type_ in ["simple_lazer", "super_lazer"]:
+	elif "type_" in parent and parent.type_ in ["lame_lazer", "simple_lazer", "super_lazer"]:
+		get_node("/root/GameScene/Sounds/Explosion").play()
 		stats.change_score(-points)
 	
 	# destroy element	
 	if parent == player or parent == floor_ or (
-		"type_" in parent and parent.type_ in ["simple_lazer", "super_lazer"]
+		"type_" in parent and parent.type_ in ["lame_lazer", "simple_lazer", "super_lazer"]
 	):
 		queue_free()

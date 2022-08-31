@@ -60,14 +60,16 @@ var BonusType = [
 	"ShieldBonus",
 	"ChefHatBonus",
 	"SpoonBonus",
+	"MichelinStarBonus",
 ]
 
 var BonusTypeRarity = {
-	"ClosedBonus": 20,
-	"KnifeBonus": 20,
-	"ShieldBonus": 20,
-	"ChefHatBonus": 20,
-	"SpoonBonus": 20,
+	"ClosedBonus": 10,
+	"KnifeBonus": 10,
+	"ShieldBonus": 10,
+	"ChefHatBonus": 10,
+	"SpoonBonus": 10,
+	"MichelinStarBonus": 10,
 }
 
 var total_bonus_rarity = 0

@@ -26,7 +26,3 @@ func _on_collision(area):
 			SPEED = 0
 			get_node("./Area2D/AnimatedSprite").play("explode")
 			time_till_flush = 0.25
-		if area_parent.type_ == "friend":
-			get_node("/root/GameScene/Stats").change_score(-area_parent.points)
-		if area_parent.type_ == "enemy":
-			get_node("/root/GameScene/Stats").change_score(area_parent.points)

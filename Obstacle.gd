@@ -29,6 +29,7 @@ func collision(area):
 	if parent == player:
 		# Player with shield is protected against obstacles
 		if not player.has_shield:
+			get_node("/root/GameScene/Sounds/Obstacle").play()
 			stats.change_life(-malus)
 			queue_free()
 		
@@ -36,7 +37,8 @@ func collision(area):
 		queue_free()
 	
 	elif "type_" in parent:
-		if parent.type_ == "simple_lazer":
+		if parent.type_ in ["lame_lazer", "simple_lazer"]:
 			parent.queue_free()
 		elif parent.type_ == "super_lazer":
+			get_node("/root/GameScene/Sounds/Explosion").play()
 			queue_free()

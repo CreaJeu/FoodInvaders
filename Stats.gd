@@ -9,6 +9,9 @@ func _ready():
 	pass # Replace with function body.
 
 func change_life(points):
+	var player = get_node("/root/GameScene/Player")
+	if points < 0 and player.has_michelin_star:
+		player.remove_michelin_bonus()
 	life += points
 	if life < 0:
 		life = 0
@@ -20,6 +23,12 @@ func change_life(points):
 		game_over()
 
 func change_score(points):
+	var player = get_node("/root/GameScene/Player")
+	if points > 0 and player.has_michelin_star:
+		points *= 2
+	if points < 0 and player.has_michelin_star:
+		player.remove_michelin_bonus()
+	print("change score: ", points)
 	score += points
 	$ScoreLabel.text = "SCORE : %d" % score
 

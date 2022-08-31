@@ -4,6 +4,8 @@ export var speed = 400
 var dir = Vector2()
 var FLOOR_NORMAL = Vector2(0, -1)
 
+export var BONUS_ZOOM = 0.95
+
 var LAZER_BONUS_TIME = 10
 var time_till_end_lazer_bonus = 0
 
@@ -20,10 +22,22 @@ var time_till_fire_end = 0
 
 var has_shield = false
 var has_chef_hat = false
+var has_michelin_star = false
+
+var final_bonus_position = {
+	"ShieldBonus": null,
+	"KnifeBonus": null,
+	"ChefHatBonus": null,
+	"SpoonBonus": null,
+	"MichelinStarBonus": null,
+}
+
+var zoom_started = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	for key in final_bonus_position:
+		final_bonus_position[key] = get_node("/root/GameScene/Bonus/" + key).position
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -43,10 +57,13 @@ func _process(delta):
 		dir.y = speed*delta
 	elif Input.is_action_just_pressed("custom_pause"):
 		var time_scale = Engine.time_scale
+		var pause_screen = get_node("/root/GameScene/PauseScreen")
 		if time_scale > 0:
 			Engine.time_scale = 0
+			pause_screen.show()
 		else:
 			Engine.time_scale = 1
+			pause_screen.hide()
 	else:
 		dir.x = 0
 		dir.y = 0
@@ -67,6 +84,7 @@ func _process(delta):
 	
 	# Input laser
 	if Input.is_action_just_pressed("custom_fire"):
+		get_node("/root/GameScene/Sounds/LazerShoot").play()
 		fire()
 	
 	if time_till_fire_end > 0:
@@ -92,7 +110,6 @@ func _process(delta):
 		if time_till_chef_hat_bonus_end <= 0:
 			has_chef_hat = false
 			get_node("/root/GameScene/Bonus/ChefHatBonus").hide()
-	
 		
 func fire():
 	time_till_fire_end = 0.25
@@ -114,6 +131,7 @@ func fire():
 	var lazer = load(lazer_scene_name + ".tscn").instance()
 	if lazer_type == "lame":
 		lazer.SPEED = 150
+		lazer.type_ = "lame_lazer"
 	lazer.position.x = position.x
 	lazer.position.y = position.y - 64
 	get_node("/root/GameScene").add_child(lazer)
@@ -126,22 +144,103 @@ func change_lazer(new_lazer_type):
 	lazer_type = new_lazer_type
 	time_till_end_lazer_bonus = LAZER_BONUS_TIME
 	get_node("/root/GameScene/Bonus/SpoonBonus").hide()
-	get_node("/root/GameScene/Bonus/KnifeBonus").show()
+	_tween_bonus("KnifeBonus")
 
 func set_lame_lazer():
 	lazer_type = "lame"
 	time_till_end_lazer_bonus = LAZER_BONUS_TIME
 	get_node("/root/GameScene/Bonus/KnifeBonus").hide()
-	get_node("/root/GameScene/Bonus/SpoonBonus").show()
+	_tween_bonus("SpoonBonus")
 
 func grant_shield_bonus():
 	has_shield = true
 	time_till_shield_end = SHIELD_BONUS_TIME
-	get_node("/root/GameScene/Bonus/ShieldBonus").show()
+	_tween_bonus("ShieldBonus")
 
 func grant_chef_hat_bonus():
 	has_chef_hat = true
 	time_till_chef_hat_bonus_end = CHEF_HAT_BONUS_TIME	
-	get_node("/root/GameScene/Bonus/ChefHatBonus").show()
+	_tween_bonus("ChefHatBonus")
 	
+func grant_michelin_bonus():
+	has_michelin_star = true
+	_tween_bonus("MichelinStarBonus")
+
+func remove_michelin_bonus():
+	has_michelin_star = false
+	get_node("/root/GameScene/Bonus/MichelinStarBonus").hide()
+
+
+func _tween_bonus(bonus_name):
+	var bonus = get_node("/root/GameScene/Bonus/" + bonus_name)
+	var tween_position = get_node("/root/GameScene/TweenPosition")
 	
+	bonus.position = get_node("/root/GameScene/Player").position
+	bonus.show()
+	
+	#get_node("/root/GameScene/Camera2D").set_zoom(Vector2(0.5, 0.5))
+	tween_position.interpolate_property(
+		bonus, 
+		"position", 
+		bonus.position, 
+		final_bonus_position[bonus_name], 
+		1,
+		Tween.TRANS_QUART,
+		Tween.EASE_IN_OUT
+	)
+	
+	tween_position.start()
+	
+	var tween_zoom = get_node("/root/GameScene/TweenZoom")
+	var camera2D = get_node("/root/GameScene/Camera2D")
+	
+	var player_position = get_node("/root/GameScene/Player").position
+	
+	var final_position = (player_position - OS.window_size * 0.5) * 0.3
+	
+	tween_zoom.interpolate_property(
+		camera2D,
+		"position",
+		camera2D.position,
+		final_position,
+		0.3,
+		Tween.TRANS_QUAD,
+		Tween.EASE_OUT
+	)
+	tween_zoom.interpolate_property(
+		camera2D,
+		"zoom",
+		camera2D.zoom,
+		camera2D.zoom * BONUS_ZOOM,
+		0.3,
+		Tween.TRANS_QUAD,
+		Tween.EASE_OUT
+	)
+	zoom_started = true
+	
+	tween_zoom.start()
+	
+func on_zoom_over():
+	if zoom_started:	
+		var tween_zoom = get_node("/root/GameScene/TweenZoom")
+		var camera2D = get_node("/root/GameScene/Camera2D")
+		tween_zoom.interpolate_property(
+			camera2D,
+			"zoom",
+			camera2D.zoom,
+			Vector2(1, 1),
+			0.5,
+			Tween.TRANS_QUAD,
+			Tween.EASE_IN
+		)
+		tween_zoom.interpolate_property(
+			camera2D,
+			"position",
+			camera2D.position,
+			Vector2(0,0),
+			0.5,
+			Tween.TRANS_QUAD,
+			Tween.EASE_IN
+		)
+		zoom_started = false
+		tween_zoom.start()

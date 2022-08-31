@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/food_invaders.mp3-7324db28daf80c2a436a545b0c81aaa8.mp3str"
+
+[deps]
+
+source_file="res://assets/music/food_invaders.mp3"
+dest_files=[ "res://.import/food_invaders.mp3-7324db28daf80c2a436a545b0c81aaa8.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

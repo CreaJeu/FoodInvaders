@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/good_food.wav-296d92604685eab68a552883d8d9d015.sample"
+
+[deps]
+
+source_file="res://assets/music/good_food.wav"
+dest_files=[ "res://.import/good_food.wav-296d92604685eab68a552883d8d9d015.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

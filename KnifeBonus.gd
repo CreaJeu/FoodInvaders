@@ -25,7 +25,9 @@ func collision(area):
 	if parent == floor_:
 		queue_free()
 	elif parent == player:
+		get_node("/root/GameScene/Sounds/Bonus").play()
 		player.change_lazer("super")
 		queue_free()
 	elif "type_" in parent and parent.type_ in ["simple_lazer", "super_lazer"]:
+		get_node("/root/GameScene/Sounds/Explosion").play()
 		queue_free()

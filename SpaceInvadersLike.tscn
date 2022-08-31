@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://assets/sprites/Vaisseau/vaisseau/starship.png" type="Texture" id=1]
 [ext_resource path="res://Player.gd" type="Script" id=2]
@@ -19,6 +19,14 @@
 [ext_resource path="res://assets/sprites/Autres/couteau.png" type="Texture" id=17]
 [ext_resource path="res://assets/sprites/Bonus_Malus/shield.png" type="Texture" id=18]
 [ext_resource path="res://assets/sprites/Bonus_Malus/cuillere.png" type="Texture" id=19]
+[ext_resource path="res://assets/sprites/Bonus_Malus/etoile_michelin.png" type="Texture" id=20]
+[ext_resource path="res://assets/music/food_invaders.mp3" type="AudioStream" id=21]
+[ext_resource path="res://assets/music/laserShoot.wav" type="AudioStream" id=22]
+[ext_resource path="res://assets/music/bonus.wav" type="AudioStream" id=23]
+[ext_resource path="res://assets/music/good_food.wav" type="AudioStream" id=24]
+[ext_resource path="res://assets/music/damage.wav" type="AudioStream" id=25]
+[ext_resource path="res://assets/music/obstacle.wav" type="AudioStream" id=26]
+[ext_resource path="res://assets/music/explosion.wav" type="AudioStream" id=27]
 
 [sub_resource type="SegmentShape2D" id=3]
 b = Vector2( 1024, 0 )
@@ -30,14 +38,14 @@ animations = [ {
 "name": "idle",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 6 ), ExtResource( 11 ), ExtResource( 9 ) ],
-"loop": true,
-"name": "firing",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 10 ), ExtResource( 5 ), ExtResource( 8 ) ],
 "loop": true,
 "name": "firing_super",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 11 ), ExtResource( 9 ) ],
+"loop": true,
+"name": "firing",
 "speed": 5.0
 } ]
 
@@ -48,7 +56,35 @@ extents = Vector2( 32, 32 )
 size = 12
 font_data = ExtResource( 15 )
 
+[sub_resource type="DynamicFont" id=6]
+size = 48
+font_data = ExtResource( 15 )
+
 [node name="GameScene" type="Node2D"]
+
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="LazerShoot" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 22 )
+
+[node name="Bonus" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 23 )
+
+[node name="GoodFood" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 24 )
+
+[node name="BadFood" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 25 )
+
+[node name="Obstacle" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 26 )
+
+[node name="Explosion" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource( 27 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
 
 [node name="Timer" type="Timer" parent="."]
 
@@ -126,25 +162,32 @@ z_index = 4096
 
 [node name="ShieldBonus" type="Sprite" parent="Bonus"]
 visible = false
-position = Vector2( 825, 122 )
+position = Vector2( 810, 110 )
+scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 18 )
 
 [node name="KnifeBonus" type="Sprite" parent="Bonus"]
 visible = false
-position = Vector2( 896, 122 )
+position = Vector2( 840, 110 )
+scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 17 )
 
 [node name="ChefHatBonus" type="Sprite" parent="Bonus"]
 visible = false
-position = Vector2( 959, 122 )
+position = Vector2( 876, 110 )
+scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 16 )
 
 [node name="SpoonBonus" type="Sprite" parent="Bonus"]
 visible = false
-position = Vector2( 896, 122 )
+position = Vector2( 840, 110 )
+scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 19 )
 
-[node name="PauseScreen" type="Node2D" parent="."]
+[node name="MichelinStarBonus" type="Sprite" parent="Bonus"]
+visible = false
+position = Vector2( 912, 110 )
+texture = ExtResource( 20 )
 
 [node name="MenuScreen" parent="." instance=ExtResource( 14 )]
 z_index = 4096
@@ -153,6 +196,31 @@ z_index = 4096
 visible = false
 z_index = 4096
 
+[node name="PauseScreen" type="Node2D" parent="."]
+visible = false
+z_index = 4096
+
+[node name="Polygon2D" type="Polygon2D" parent="PauseScreen"]
+color = Color( 0, 0, 0, 0.501961 )
+antialiased = true
+polygon = PoolVector2Array( 0, 0, 1024, 0, 1024, 576, 0, 576 )
+
+[node name="PauseLabel" type="Label" parent="PauseScreen"]
+margin_right = 1023.0
+margin_bottom = 135.0
+custom_fonts/font = SubResource( 6 )
+text = "PAUSE"
+align = 1
+
+[node name="TweenPosition" type="Tween" parent="."]
+
+[node name="TweenZoom" type="Tween" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 21 )
+autoplay = true
+
 [connection signal="timeout" from="Timer" to="EnemiesPool" method="_on_Timer_timeout"]
 [connection signal="area_entered" from="Sky" to="Sky" method="_on_Sky_area_entered"]
 [connection signal="area_entered" from="Floor/FloorArea" to="Floor" method="_on_FloorArea_area_entered"]
+[connection signal="tween_all_completed" from="TweenZoom" to="Player" method="on_zoom_over"]

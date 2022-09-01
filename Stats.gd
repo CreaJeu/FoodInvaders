@@ -41,12 +41,7 @@ func change_score(points):
 	score += points
 	$ScoreLabel.text = "SCORE : %d" % score
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
 
 func game_over():
-	var game_over_scene = load("res://GameOver.tscn")
-	#game_over_scene.get_node("/root/GameOver/ScoreLabel").text = "%d" % score
-	
-	get_tree().change_scene_to(game_over_scene)
+	Globals.score = score
+	get_tree().change_scene("res://GameOver.tscn")

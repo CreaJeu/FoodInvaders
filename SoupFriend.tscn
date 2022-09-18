@@ -38,4 +38,3 @@ __meta__ = {
 [node name="Tween" type="Tween" parent="."]
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
-[connection signal="tween_completed" from="Tween" to="." method="tween_label_over"]

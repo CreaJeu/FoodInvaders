@@ -15,5 +15,12 @@ func _on_PlayButton_pressed():
 	start_game()
 
 
+func _on_HelpButton_pressed():
+	show_help()
+
+
 func start_game():
 	get_tree().change_scene("res://SpaceInvadersLike.tscn")
+
+func show_help():
+	get_tree().change_scene("res://HelpScreen.tscn")

@@ -32,6 +32,9 @@ func collision(area):
 	if parent == player:
 		print("Player ate good food")
 		get_node("/root/GameScene/Sounds/GoodFood").play()
+		
+		show_tween_label()
+		
 		stats.change_score(points)
 		stats.change_life(life_bonus)
 	
@@ -46,7 +49,34 @@ func collision(area):
 		stats.change_score(-points)
 	
 	# destroy element	
-	if parent == player or parent == floor_ or (
+	if parent == floor_ or (
 		"type_" in parent and parent.type_ in ["lame_lazer", "simple_lazer", "super_lazer"]
 	):
 		queue_free()
+
+
+func show_tween_label():
+	var tween = $Tween
+	$Sprite.visible = false
+	$TweenLabel.text = "+ %d" % points
+	$TweenLabel.visible = true
+	tween.stop_all()
+	tween.interpolate_property(
+		$TweenLabel,
+		"rect_position:y",
+		$TweenLabel.rect_position.y,
+		$TweenLabel.rect_position.y - 64,
+		0.25,
+		Tween.TRANS_LINEAR,
+		Tween.EASE_IN_OUT
+	)
+	tween.start()
+
+
+func tween_label_over(object, key):
+	$TweenLabel.visible = false
+	$TweenLabel.rect_position = Vector2(
+		position.x - 23,
+		position.y - 60
+	)
+	queue_free()

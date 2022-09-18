@@ -1,10 +1,14 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Friend.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/Bonne bouffe/soupe.png" type="Texture" id=2]
+[ext_resource path="res://assets/fonts/Pixeled.ttf" type="DynamicFontData" id=3]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 29, 16.5 )
+
+[sub_resource type="DynamicFont" id=3]
+font_data = ExtResource( 3 )
 
 [node name="Enemy" type="Node2D"]
 script = ExtResource( 1 )
@@ -17,4 +21,21 @@ texture = ExtResource( 2 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource( 2 )
 
+[node name="TweenLabel" type="Label" parent="."]
+visible = false
+margin_left = -23.0
+margin_top = -60.0
+margin_right = 20.0
+margin_bottom = -14.0
+custom_colors/font_color = Color( 0, 1, 0, 1 )
+custom_fonts/font = SubResource( 3 )
+text = "+ 1"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="."]
+
 [connection signal="area_entered" from="Area2D" to="." method="_on_Area2D_area_entered"]
+[connection signal="tween_completed" from="Tween" to="." method="tween_label_over"]

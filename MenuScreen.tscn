@@ -35,14 +35,26 @@ __meta__ = {
 }
 
 [node name="PlayButton" type="Button" parent="."]
-margin_left = 404.0
-margin_top = 311.0
-margin_right = 656.0
-margin_bottom = 452.0
+margin_left = 134.0
+margin_top = 288.0
+margin_right = 386.0
+margin_bottom = 429.0
 custom_fonts/font = SubResource( 2 )
 text = "Jouer"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="HelpButton" type="Button" parent="."]
+margin_left = 592.0
+margin_top = 290.0
+margin_right = 844.0
+margin_bottom = 431.0
+custom_fonts/font = SubResource( 2 )
+text = "Aide"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="PlayButton" to="." method="_on_PlayButton_pressed"]
+[connection signal="pressed" from="HelpButton" to="." method="_on_HelpButton_pressed"]

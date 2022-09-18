@@ -9,7 +9,16 @@ var dir = Vector2()
 var FLOOR_NORMAL = Vector2(0, -1)
 var random_speed_factor = 1
 
+var will_queue_free = false
+var time_till_free = 1
+
 func _physics_process(delta):	
+	if will_queue_free:
+		if time_till_free <= 0:
+			queue_free()
+		else:
+			time_till_free -= delta
+	
 	dir.x = 0
 	dir.y = SPEED * random_speed_factor * delta
 
@@ -31,7 +40,8 @@ func collision(area):
 		if not player.has_shield:
 			get_node("/root/GameScene/Sounds/Obstacle").play()
 			stats.change_life(-malus)
-			queue_free()
+			explode()
+			#queue_free()
 		
 	elif parent == floor_:
 		queue_free()
@@ -42,3 +52,9 @@ func collision(area):
 		elif parent.type_ == "super_lazer":
 			get_node("/root/GameScene/Sounds/Explosion").play()
 			queue_free()
+
+func explode():
+	$Sprite.visible = false
+	$AnimatedSprite.visible = true
+	$AnimatedSprite.play("explosion")
+	will_queue_free = true

@@ -14,6 +14,7 @@ func _ready():
 	random_speed_factor = rand_range(1.0, 1.5)
 
 func _physics_process(delta):	
+	# Free enemy	
 	dir.x = 0
 	dir.y = SPEED*random_speed_factor*delta
 
@@ -34,9 +35,12 @@ func collision(area):
 		if not player.has_chef_hat:
 			get_node("/root/GameScene/Sounds/BadFood").play()
 			print("Player ate junk food")
+			
+			show_tween_label()
+			
 			stats.change_life(-life_malus)
 			stats.change_score(-points)
-			queue_free()
+			#queue_free()
 	
 	# fallen 
 	elif parent == floor_:
@@ -52,4 +56,29 @@ func collision(area):
 		get_node("/root/GameScene/Sounds/Explosion").play()
 		stats.change_score(points)
 		queue_free()
-	
+
+func show_tween_label():
+	var tween = $Tween
+	$Sprite.visible = false
+	$TweenLabel.text = "- %d" % points
+	$TweenLabel.visible = true
+	tween.stop_all()
+	tween.interpolate_property(
+		$TweenLabel,
+		"rect_position:y",
+		$TweenLabel.rect_position.y,
+		$TweenLabel.rect_position.y - 64,
+		0.25,
+		Tween.TRANS_LINEAR,
+		Tween.EASE_IN_OUT
+	)
+	tween.start()
+
+
+func tween_label_over(object, key):
+	$TweenLabel.visible = false
+	$TweenLabel.rect_position = Vector2(
+		position.x - 23,
+		position.y - 60
+	)
+	queue_free()

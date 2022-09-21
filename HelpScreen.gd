@@ -8,12 +8,13 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	$BackButton.set("custom_colors/font_color", Color(0, 1, 0))
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _process(delta):
+	if Input.is_action_pressed("ui_home"):
+		get_tree().change_scene("res://MenuScreen.tscn")
 
 
 func _on_BackButton_pressed():

@@ -205,12 +205,9 @@ align = 1
 
 [node name="TweenPosition" type="Tween" parent="."]
 
-[node name="TweenZoom" type="Tween" parent="."]
-
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 21 )
 
 [connection signal="timeout" from="Timer" to="EnemiesPool" method="_on_Timer_timeout"]
 [connection signal="area_entered" from="Sky" to="Sky" method="_on_Sky_area_entered"]
 [connection signal="area_entered" from="Floor/FloorArea" to="Floor" method="_on_FloorArea_area_entered"]
-[connection signal="tween_all_completed" from="TweenZoom" to="Player" method="on_zoom_over"]

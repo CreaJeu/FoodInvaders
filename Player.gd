@@ -190,56 +190,9 @@ func _tween_bonus(bonus_name):
 	
 	tween_position.start()
 	
-	var tween_zoom = get_node("/root/GameScene/TweenZoom")
 	var camera2D = get_node("/root/GameScene/Camera2D")
 	
 	var player_position = get_node("/root/GameScene/Player").position
 	
 	var final_position = (player_position - OS.window_size * 0.5) * 0.3
 	
-	tween_zoom.interpolate_property(
-		camera2D,
-		"position",
-		camera2D.position,
-		final_position,
-		0.3,
-		Tween.TRANS_QUAD,
-		Tween.EASE_OUT
-	)
-	tween_zoom.interpolate_property(
-		camera2D,
-		"zoom",
-		camera2D.zoom,
-		camera2D.zoom * BONUS_ZOOM,
-		0.3,
-		Tween.TRANS_QUAD,
-		Tween.EASE_OUT
-	)
-	zoom_started = true
-	
-	tween_zoom.start()
-	
-func on_zoom_over():
-	if zoom_started:	
-		var tween_zoom = get_node("/root/GameScene/TweenZoom")
-		var camera2D = get_node("/root/GameScene/Camera2D")
-		tween_zoom.interpolate_property(
-			camera2D,
-			"zoom",
-			camera2D.zoom,
-			Vector2(1, 1),
-			0.5,
-			Tween.TRANS_QUAD,
-			Tween.EASE_IN
-		)
-		tween_zoom.interpolate_property(
-			camera2D,
-			"position",
-			camera2D.position,
-			Vector2(0,0),
-			0.5,
-			Tween.TRANS_QUAD,
-			Tween.EASE_IN
-		)
-		zoom_started = false
-		tween_zoom.start()

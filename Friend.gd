@@ -13,8 +13,12 @@ var random_speed_y_factor = 1
 var type_ = "friend"
 
 func _ready():
-	random_speed_x_factor = rand_range(-0.4, 0.4)
+	var random_dir = [-1, 1][randi() % 2]
+	random_speed_x_factor = rand_range(0.1, 0.8) * random_dir 
 	random_speed_y_factor = rand_range(1, 2)
+	
+	points *= random_speed_y_factor
+	points = int(points)
 
 func _physics_process(delta):	
 	if position.x < 32 or position.x > 992:
@@ -61,9 +65,15 @@ func collision(area):
 
 
 func show_tween_label():
+	var player = get_node("/root/GameScene/Player")
+	var computed_points = points
+	if player.has_michelin_star:
+		print("points avant michelin : %d" % points)
+		computed_points *= 2
+		
 	var tween = $Tween
 	$Sprite.visible = false
-	$TweenLabel.text = "+ %d" % points
+	$TweenLabel.text = "+ %d" % computed_points
 	$TweenLabel.visible = true
 	tween.stop_all()
 	tween.interpolate_property(

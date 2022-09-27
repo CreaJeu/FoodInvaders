@@ -1,6 +1,6 @@
 extends Node2D
 
-export var speed = 400
+export var speed = 600
 var dir = Vector2()
 var FLOOR_NORMAL = Vector2(0, -1)
 

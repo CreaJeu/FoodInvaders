@@ -41,8 +41,14 @@ func _on_collision(area):
 
 
 func handle_tween(area_parent):
+	var player = get_node("/root/GameScene/Player")
+	
 	if area_parent.type_ == "enemy":
-		show_tween_label("+ %d" % area_parent.points, Color(0, 1, 0))
+		var points = area_parent.points
+		if player.has_michelin_star:
+			print("points avant michelin : %d" % points)
+			points *= 2
+		show_tween_label("+ %d" % points, Color(0, 1, 0))
 	if area_parent.type_ == "friend":
 		show_tween_label("- %d" % area_parent.points, Color(1, 0, 0))
 

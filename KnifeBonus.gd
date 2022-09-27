@@ -2,17 +2,23 @@ extends Node2D
 
 var type_ = "bonus"
 
-export var SPEED = 100
+export var SPEED = 150
 export var life_cost = 7
 var dir = Vector2()
-var random_speed_factor = 1
+var random_speed_x_factor = 1
+var random_speed_y_factor = 1
 
 func _ready():
-	random_speed_factor = rand_range(1.0, 1.5)
+	random_speed_x_factor = rand_range(-0.4, 0.4)
+	random_speed_y_factor = rand_range(1, 2)
+
 
 func _physics_process(delta):	
-	dir.x = 0
-	dir.y = SPEED*random_speed_factor*delta
+	if position.x < 32 or position.x > 992:
+		random_speed_x_factor *= -1
+
+	dir.x = SPEED * random_speed_x_factor * delta
+	dir.y = SPEED * random_speed_y_factor * delta
 
 	position.x += dir.x
 	position.y += dir.y

@@ -108,7 +108,7 @@ func create_enemy():
 	
 	var enemy_res = load(generated_enemy_type + ".tscn")
 	var enemy = enemy_res.instance()
-	enemy.position.x = rand_range(0, 1000)
+	enemy.position.x = rand_range(33, 991)
 	enemy.position.y = 0
 	add_child(enemy)
 	
@@ -121,7 +121,7 @@ func create_friend():
 	
 	var friend_res = load(generated_enemy_type + ".tscn")
 	var friend = friend_res.instance()
-	friend.position.x = rand_range(0, 1000)
+	friend.position.x = rand_range(33, 991)
 	friend.position.y = 0
 	add_child(friend)
 	
@@ -133,7 +133,7 @@ func create_obstacle():
 	
 	var obstacle_res = load(generated_obstacle_type + ".tscn")
 	var obstacle = obstacle_res.instance()
-	obstacle.position.x = rand_range(0, 1000)
+	obstacle.position.x = rand_range(33, 991)
 	obstacle.position.y = 0
 	add_child(obstacle)
 	
@@ -145,7 +145,7 @@ func create_bonus():
 	
 	var bonus_res = load(generated_bonus_type + ".tscn")
 	var bonus = bonus_res.instance()
-	bonus.position.x = rand_range(0, 1000)
+	bonus.position.x = rand_range(33, 991)
 	bonus.position.y = 0
 	add_child(bonus)
 	

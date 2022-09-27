@@ -1,22 +1,27 @@
 extends Node2D
 
-export var SPEED = 100
+export var SPEED = 150
 
 var dir = Vector2()
 var FLOOR_NORMAL = Vector2(0, -1)
 var points = 10
 var life_malus = 5
-var random_speed_factor = 1
+var random_speed_x_factor = 1
+var random_speed_y_factor = 1
 
 var type_ = "enemy"
 
 func _ready():
-	random_speed_factor = rand_range(1.0, 1.5)
+	random_speed_x_factor = rand_range(-0.4, 0.4)
+	random_speed_y_factor = rand_range(1, 2)
 
 func _physics_process(delta):	
+	if position.x < 32 or position.x > 992:
+		random_speed_x_factor *= -1
+	
 	# Free enemy	
-	dir.x = 0
-	dir.y = SPEED*random_speed_factor*delta
+	dir.x = SPEED*random_speed_x_factor*delta
+	dir.y = SPEED*random_speed_y_factor*delta
 
 	position.x += dir.x
 	position.y += dir.y

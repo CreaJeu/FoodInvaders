@@ -42,20 +42,20 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	dir.x = 0
+	dir.y = 0
+	
 	# Input move
 	if Input.is_action_pressed("ui_left"):
 		dir.x = -speed*delta
-		dir.y = 0
-	elif Input.is_action_pressed("ui_right"):
+	if Input.is_action_pressed("ui_right"):
 		dir.x = speed*delta
-		dir.y = 0
-	elif Input.is_action_pressed("ui_up"):
-		dir.x = 0
+	if Input.is_action_pressed("ui_up"):
 		dir.y = -speed*delta
-	elif Input.is_action_pressed("ui_down"):
-		dir.x = 0
+	if Input.is_action_pressed("ui_down"):
 		dir.y = speed*delta
-	elif Input.is_action_just_pressed("custom_pause"):
+		
+	if Input.is_action_just_pressed("custom_pause"):
 		var time_scale = Engine.time_scale
 		var pause_screen = get_node("/root/GameScene/PauseScreen")
 		if time_scale > 0:
@@ -66,9 +66,6 @@ func _process(delta):
 			pause_screen.hide()
 	elif Input.is_action_pressed("ui_home"):
 		get_tree().change_scene("res://MenuScreen.tscn")
-	else:
-		dir.x = 0
-		dir.y = 0
 	
 	position.x += dir.x
 	position.y += dir.y

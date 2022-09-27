@@ -7,7 +7,9 @@ var type_ = "obstacle"
 export var SPEED = 100
 var dir = Vector2()
 var FLOOR_NORMAL = Vector2(0, -1)
-var random_speed_factor = 1
+var random_speed_x_factor = 1
+var random_speed_y_factor = 1
+
 
 var will_queue_free = false
 var time_till_free = 1
@@ -19,15 +21,20 @@ func _physics_process(delta):
 		else:
 			time_till_free -= delta
 	
-	dir.x = 0
-	dir.y = SPEED * random_speed_factor * delta
+	if position.x < 32 or position.x > 992:
+		random_speed_x_factor *= -1
+
+	dir.x = SPEED * random_speed_x_factor * delta
+	dir.y = SPEED * random_speed_y_factor * delta
 
 	position.x += dir.x
 	position.y += dir.y
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	random_speed_factor = rand_range(1.0, 1.5)
+	random_speed_x_factor = rand_range(-0.4, 0.4)
+	random_speed_y_factor = rand_range(1, 2)
+
 
 func collision(area):
 	var stats = get_node("/root/GameScene/Stats")

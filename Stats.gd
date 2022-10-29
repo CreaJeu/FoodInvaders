@@ -33,13 +33,30 @@ func change_life(points):
 
 func change_score(points):
 	var player = get_node("/root/GameScene/Player")
-	if points > 0 and player.has_michelin_star:
-		points *= 2
-	if points < 0 and player.has_michelin_star:
-		player.remove_michelin_bonus()
+	
+	if (points > 0):
+		if player.has_michelin_star: 
+			score += 2*points
+		else:
+			score += points
+	else:
+		#Si la perte est supérieure au score, la difference est transformée en dégats.
+		if score + points < 0:
+			life += score + points
+			if life < 0:
+				life = 0
+			score = 0
+		else:
+			score += points
+			if player.has_michelin_star:
+				player.remove_michelin_bonus()
+			
 	print("change score: ", points)
-	score += points
 	$ScoreLabel.text = "SCORE : %d" % score
+	
+	$LifeBar/CurrentBar.scale.x = life / max_life
+	if life <= 0:
+		game_over()
 
 
 func game_over():

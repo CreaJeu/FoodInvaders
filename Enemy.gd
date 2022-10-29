@@ -41,7 +41,9 @@ func collision(area):
 	# eaten by player -> lose life & score
 	if parent == player:
 		# Player with chef hat bonus is resistant
-		if not player.has_chef_hat:
+		if player.has_chef_hat:
+			show_tween_label("chef_hat")
+		else:
 			get_node("/root/GameScene/Sounds/BadFood").play()
 			print("Player ate junk food")
 			
@@ -49,6 +51,7 @@ func collision(area):
 			
 			stats.change_life(-life_malus)
 			stats.change_score(-points)
+			player.hurt()
 			#queue_free()
 	
 	# fallen 
@@ -57,7 +60,7 @@ func collision(area):
 		# Player with chef hat bonus is resistant
 		if not player.has_chef_hat:
 			stats.change_score(-points)		
-		queue_free()
+		show_tween_label("lose")
 	
 	# hit by lazer
 	elif "type_" in parent and parent.type_ in ["lame_lazer", "simple_lazer", "super_lazer"]:
@@ -66,10 +69,16 @@ func collision(area):
 		stats.change_score(points)
 		queue_free()
 
-func show_tween_label():
+func show_tween_label(type_points="win"):		
 	var tween = $Tween
 	$Sprite.visible = false
+	
 	$TweenLabel.text = "- %d" % points
+	
+	if type_points == "chef_hat":
+		$TweenLabel.text = "CHEF"
+		$TweenLabel.set("custom_colors/font_color", Color(1,1,0))
+	
 	$TweenLabel.visible = true
 	tween.stop_all()
 	tween.interpolate_property(
@@ -81,6 +90,8 @@ func show_tween_label():
 		Tween.TRANS_LINEAR,
 		Tween.EASE_IN_OUT
 	)
+	if type_points == "lose":
+		get_node("/root/GameScene/Sounds/BadFood").play()
 	tween.start()
 
 

@@ -51,6 +51,7 @@ func collision(area):
 	elif parent == floor_:
 		print("enemy fell down")
 		stats.change_score(-3*points)
+		show_tween_label("lose")
 	
 	# shot by lazer -> decrease score
 	elif "type_" in parent and parent.type_ in ["lame_lazer", "simple_lazer", "super_lazer"]:
@@ -58,13 +59,13 @@ func collision(area):
 		stats.change_score(-points)
 	
 	# destroy element	
-	if parent == floor_ or (
+	if (
 		"type_" in parent and parent.type_ in ["lame_lazer", "simple_lazer", "super_lazer"]
 	):
 		queue_free()
 
 
-func show_tween_label():
+func show_tween_label(type_points="win"):
 	var player = get_node("/root/GameScene/Player")
 	var computed_points = points
 	if player.has_michelin_star:
@@ -73,7 +74,13 @@ func show_tween_label():
 		
 	var tween = $Tween
 	$Sprite.visible = false
-	$TweenLabel.text = "+ %d" % computed_points
+	if type_points == "win":
+		$TweenLabel.text = "+ %d" % computed_points
+	else:
+		$TweenLabel.text = "- %d" % abs(computed_points)
+		$TweenLabel.set("custom_colors/font_color", Color(1,0,0))
+		get_node("/root/GameScene/Sounds/BadFood").play()
+		
 	$TweenLabel.visible = true
 	tween.stop_all()
 	tween.interpolate_property(

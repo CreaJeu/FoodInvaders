@@ -64,4 +64,5 @@ func explode():
 	$Sprite.visible = false
 	$AnimatedSprite.visible = true
 	$AnimatedSprite.play("explosion")
+	get_node("/root/GameScene/Player").hurt()
 	will_queue_free = true

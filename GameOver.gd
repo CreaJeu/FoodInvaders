@@ -6,7 +6,15 @@ var focus_button = "menu_button"
 func _ready():
 	get_node("/root/GameOver/ScoreLabel").text = "%d" % Globals.score
 	$MenuButton.set("custom_colors/font_color", Color(0, 1, 0))
-
+	
+	var highscores = Globals.get_highscores()
+	for index in range(len(highscores)):
+		var username = highscores[index]["username"]
+		var score = highscores[index]["score"]
+		get_node("/root/GameOver/Highscores/Score%d" % (index+1)).text = username + " : %d" % score
+	for index in range(len(highscores), 10):
+		get_node("/root/GameOver/Highscores/Score%d" % (index+1)).text = ""
+	
 func _process(delta):
 	if Input.is_key_pressed(KEY_SPACE):
 		_process_button()

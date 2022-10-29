@@ -6,6 +6,9 @@ var FLOOR_NORMAL = Vector2(0, -1)
 
 export var BONUS_ZOOM = 0.95
 
+var HURT_TIME = 0.2
+var time_till_end_hurt = 0
+
 var LAZER_BONUS_TIME = 10
 var time_till_end_lazer_bonus = 0
 
@@ -67,6 +70,10 @@ func _process(delta):
 	elif Input.is_action_pressed("ui_home"):
 		get_tree().change_scene("res://MenuScreen.tscn")
 	
+	# improve speed +50% when michelin star
+	if has_michelin_star:
+		dir *= 1.5
+	
 	position.x += dir.x
 	position.y += dir.y
 	
@@ -86,6 +93,11 @@ func _process(delta):
 		get_node("/root/GameScene/Sounds/LazerShoot").play()
 		fire()
 	
+	if time_till_end_hurt > 0:
+		time_till_end_hurt -= delta
+		if time_till_end_hurt <= 0:
+			$PlayerArea2D/AnimatedSprite.play("idle")
+	
 	if time_till_fire_end > 0:
 		time_till_fire_end -= delta
 		if time_till_fire_end <= 0:
@@ -103,6 +115,7 @@ func _process(delta):
 		if time_till_shield_end <= 0:
 			has_shield = false
 			get_node("/root/GameScene/Bonus/ShieldBonus").hide()
+			$PlayerArea2D/Shield.visible = false
 			
 	if time_till_chef_hat_bonus_end > 0:
 		time_till_chef_hat_bonus_end -= delta
@@ -155,6 +168,7 @@ func grant_shield_bonus():
 	has_shield = true
 	time_till_shield_end = SHIELD_BONUS_TIME
 	_tween_bonus("ShieldBonus")
+	$PlayerArea2D/Shield.visible = true
 
 func grant_chef_hat_bonus():
 	has_chef_hat = true
@@ -196,3 +210,6 @@ func _tween_bonus(bonus_name):
 	
 	var final_position = (player_position - OS.window_size * 0.5) * 0.3
 	
+func hurt():
+	time_till_end_hurt = HURT_TIME
+	$PlayerArea2D/AnimatedSprite.play("hurt")

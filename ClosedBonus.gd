@@ -33,6 +33,8 @@ func collision(area):
 	elif parent == player:
 		# TODO: set bonus to player
 		stats.change_life(-life_cost)
+		get_node("/root/GameScene/Sounds/Explosion").play()
+		player.hurt()
 		var enemies_pool = get_node("/root/GameScene/EnemiesPool")
 		if enemies_pool != null:
 			for enemy in enemies_pool.get_children():

@@ -13,13 +13,13 @@ func _ready():
 
 func write_hello_world():
 	var file = File.new()
-	file.open("user://hello_world.txt", File.WRITE)
+	file.open("res://hello_world.txt", File.WRITE)
 	file.store_string("hello world")
 	file.close()
 
 func read_hello_world():
 	var file = File.new()
-	file.open("user://hello_world.txt", File.READ)
+	file.open("res://hello_world.txt", File.READ)
 	var text = file.get_as_text()
 	print("contenu du fichier")
 	print(text)
@@ -40,10 +40,10 @@ class HighscoreSorter:
 
 func add_highscore(username, score):
 	var file = File.new()
-	file.open("user://highscores.dat", File.READ)
+	file.open("res://highscores.dat", File.READ)
 	var highscores = file.get_var()
 	file.close()
-	file.open("user://highscores.dat", File.WRITE)
+	file.open("res://highscores.dat", File.WRITE)
 	if len(highscores) < nb_highscores:
 		highscores.append({"username": username, "score": score})
 		highscores.sort_custom(HighscoreSorter, "sort")
@@ -61,20 +61,20 @@ func add_highscore(username, score):
 func clean_highscores():
 	var highscores = []
 	var file = File.new()
-	file.open("user://highscores.dat", File.WRITE)
+	file.open("res://highscores.dat", File.WRITE)
 	file.store_var(highscores)
 	file.close()
 	
 func display_highscores():
 	var file = File.new()
-	file.open("user://highscores.dat", File.READ)
+	file.open("res://highscores.dat", File.READ)
 	var highscores = file.get_var()
 	print(highscores)
 	file.close()
 
 func get_highscores():
 	var file = File.new()
-	file.open("user://highscores.dat", File.READ)
+	file.open("res://highscores.dat", File.READ)
 	var highscores = file.get_var()
 	file.close()
 	return highscores

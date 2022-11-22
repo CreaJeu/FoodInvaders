@@ -1,6 +1,5 @@
 extends Node2D
 
-export var SPEED = 150
 
 var dir = Vector2()
 var FLOOR_NORMAL = Vector2(0, -1)
@@ -24,8 +23,8 @@ func _physics_process(delta):
 		random_speed_x_factor *= -1
 	
 	# Free enemy	
-	dir.x = SPEED*random_speed_x_factor*delta
-	dir.y = SPEED*random_speed_y_factor*delta
+	dir.x = Globals.game_speed*random_speed_x_factor*delta
+	dir.y = Globals.game_speed*random_speed_y_factor*delta
 
 	position.x += dir.x
 	position.y += dir.y

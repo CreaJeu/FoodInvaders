@@ -4,8 +4,12 @@ export var max_life = 100.0
 var life = max_life
 var score = 0
 
+var elapsed_time = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	elapsed_time = 0
+	Globals.game_speed = 150
 	var timer = get_node("/root/GameScene/Timer")
 	var player = get_node("/root/GameScene/Player")
 	var stats = get_node("/root/GameScene/Stats")
@@ -65,3 +69,8 @@ func game_over():
 		get_tree().change_scene("res://HighscoreEdit.tscn")
 	else:
 		get_tree().change_scene("res://GameOver.tscn")
+
+
+func _on_TimerDifficulty_timeout():
+	elapsed_time += 1
+	Globals.game_speed = 150 + int(10 * sqrt(elapsed_time))

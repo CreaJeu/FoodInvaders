@@ -1,6 +1,5 @@
 extends Node2D
 
-export var SPEED = 150
 
 export var points = 10
 export var life_bonus = 2
@@ -24,8 +23,8 @@ func _physics_process(delta):
 	if position.x < 32 or position.x > 992:
 		random_speed_x_factor *= -1
 	
-	dir.x = SPEED * random_speed_x_factor * delta
-	dir.y = SPEED * random_speed_y_factor * delta
+	dir.x = Globals.game_speed * random_speed_x_factor * delta
+	dir.y = Globals.game_speed * random_speed_y_factor * delta
 
 	position.x += dir.x
 	position.y += dir.y

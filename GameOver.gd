@@ -1,5 +1,6 @@
 extends Node2D
 
+var nb_highscores = 5
 var focus_button = "menu_button"
 
 # Called when the node enters the scene tree for the first time.
@@ -12,7 +13,7 @@ func _ready():
 		var username = highscores[index]["username"]
 		var score = highscores[index]["score"]
 		get_node("/root/GameOver/Highscores/Score%d" % (index+1)).text = username + " : %d" % score
-	for index in range(len(highscores), 10):
+	for index in range(len(highscores), nb_highscores):
 		get_node("/root/GameOver/Highscores/Score%d" % (index+1)).text = ""
 	
 func _process(delta):

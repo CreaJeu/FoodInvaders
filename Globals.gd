@@ -1,7 +1,7 @@
 extends Node2D
 
 var score = 0
-var nb_highscores = 10
+var nb_highscores = 5
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -37,6 +37,14 @@ class HighscoreSorter:
 			return true
 		else:
 			return false
+			
+func is_new_score_highscore(score):
+	var file = File.new()
+	file.open("res://highscores.dat", File.READ)
+	var highscores = file.get_var()
+	var is_highscore = len(highscores) < nb_highscores or score > highscores[-1]["score"]
+	file.close()
+	return is_highscore
 
 func add_highscore(username, score):
 	var file = File.new()

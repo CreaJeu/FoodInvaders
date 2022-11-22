@@ -61,5 +61,7 @@ func change_score(points):
 
 func game_over():
 	Globals.score = score
-	Globals.add_highscore("TOTO", score)
-	get_tree().change_scene("res://GameOver.tscn")
+	if Globals.is_new_score_highscore(Globals.score):
+		get_tree().change_scene("res://HighscoreEdit.tscn")
+	else:
+		get_tree().change_scene("res://GameOver.tscn")

@@ -86,3 +86,5 @@ func get_highscores():
 	var highscores = file.get_var()
 	file.close()
 	return highscores
+
+	
